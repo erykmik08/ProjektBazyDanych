@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Partycjonowanie danych'
+project = 'Sprawozdanie projektowe'
 copyright = '2023, Mika, Łabowicz'
 author = 'Mika, Łabowicz'
 release = '2023'
@@ -24,5 +24,5 @@ language = 'pl'
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'alabaster'
+html_theme = 'nature'
 html_static_path = ['_static']
