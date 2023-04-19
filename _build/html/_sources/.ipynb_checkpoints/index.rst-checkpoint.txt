@@ -9,7 +9,6 @@ Sprawozdanie projektowe z kursu Bazy danych 1
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
 
 
 :Authors:
@@ -19,7 +18,7 @@ Sprawozdanie projektowe z kursu Bazy danych 1
 :Version: 1.0 of 20.04.2023
 :Course: Databases I
 
-
+..
     Indices and tables
     ==================
     * :ref:`genindex`
