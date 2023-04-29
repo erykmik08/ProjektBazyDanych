@@ -7,10 +7,10 @@ Sprawozdanie projektowe z kursu Bazy danych 1
 ==================================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   
-
+    :maxdepth: 2
+    :caption: Zawartość sprawozdania:
+    
+    cele
 
 :Authors:
     Eryk Mika,
@@ -18,15 +18,7 @@ Sprawozdanie projektowe z kursu Bazy danych 1
 
 :Version: 1.0 of 20.04.2023
 :Course: Databases I
-
-
-    Indices and tables
-    ==================
-    * :ref:`genindex`
-    * :ref:`modindex`
-    * :ref:`search`
-
-
+    
 Partycjonowanie danych
 ------------------------
 
@@ -52,19 +44,3 @@ PostgreSQL wspiera podstawowe partycjonowanie tabel. Oferowane jest wsparcie dla
 3. **Partycjonowanie haszowane** - mamy określony dzielnik i resztę z dzielenia dla każdej partycji - przydzielamy klucze do nich na podstawie reszty z dzielenia przez ten dzielnik.
 
 
-1. Cele stosowania partycjonowania danych
---------------------------------------------
-
-Cele partycjonowania danych w bazach danych mogą obejmować:
-
-    **Poprawę wydajności**: Partycjonowanie danych może poprawić wydajność zapytań, ponieważ bazy danych będą przeszukiwać tylko te partycje, które zawierają potrzebne dane, a nie całą bazę danych.
-
-    **Zwiększenie dostępności**: Partycjonowanie danych może również poprawić dostępność systemu, ponieważ jeśli jedna partycja ulegnie awarii, to pozostałe partycje nadal będą działać.
-
-    **Ułatwienie zarządzania**: Partycjonowanie danych może ułatwić zarządzanie bazą danych, ponieważ można skoncentrować się tylko na potrzebnych partycjach i wykonywać operacje na nich, zamiast na całej bazie danych.
-
-    **Optymalizacja archiwizacji i backupów**: Partycjonowanie danych umożliwia lepsze zarządzanie archiwizacją i backupami, ponieważ można archiwizować i backupować tylko te partycje, które się zmieniły, a nie całą bazę danych.
-
-    **Umożliwienie równoległego przetwarzania**: Partycjonowanie danych umożliwia równoległe przetwarzanie danych, co może skrócić czas wykonywania zadań.
-
-    **Optymalizacja wykorzystania pamięci**: Partycjonowanie danych może zmniejszyć zużycie pamięci, ponieważ dane są dzielone na mniejsze części, co może zwiększyć wykorzystanie pamięci podręcznej.
