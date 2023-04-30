@@ -11,6 +11,7 @@ Sprawozdanie projektowe z kursu Bazy danych 1
     :caption: Zawartość sprawozdania:
     
     cele
+    zastosowania
 
 :Authors:
     Eryk Mika,
