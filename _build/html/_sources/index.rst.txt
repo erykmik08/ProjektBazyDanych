@@ -9,9 +9,6 @@ Sprawozdanie projektowe z kursu Bazy danych 1
 .. toctree::
     :maxdepth: 2
     :caption: Zawartość sprawozdania:
-    
-    cele
-    zastosowania
 
 :Authors:
     Eryk Mika,
@@ -44,4 +41,43 @@ PostgreSQL wspiera podstawowe partycjonowanie tabel. Oferowane jest wsparcie dla
 
 3. **Partycjonowanie haszowane** - mamy określony dzielnik i resztę z dzielenia dla każdej partycji - przydzielamy klucze do nich na podstawie reszty z dzielenia przez ten dzielnik.
 
+1. Cele stosowania partycjonowania danych
+------------------------------------------------
+Cele partycjonowania danych w bazach danych mogą obejmować:
 
+
+**Poprawę wydajności**: Partycjonowanie danych może poprawić wydajność zapytań, ponieważ bazy danych będą przeszukiwać tylko te partycje, które zawierają potrzebne dane, a nie całą bazę danych.
+
+**Zwiększenie dostępności**: Partycjonowanie danych może również poprawić dostępność systemu, ponieważ jeśli jedna partycja ulegnie awarii, to pozostałe partycje nadal będą działać.
+
+**Ułatwienie zarządzania**: Partycjonowanie danych może ułatwić zarządzanie bazą danych, ponieważ można skoncentrować się tylko na potrzebnych partycjach i wykonywać operacje na nich, zamiast na całej bazie danych.
+
+**Optymalizacja archiwizacji i backupów**: Partycjonowanie danych umożliwia lepsze zarządzanie archiwizacją i backupami, ponieważ można archiwizować i backupować tylko te partycje, które się zmieniły, a nie całą bazę danych.
+
+**Umożliwienie równoległego przetwarzania**: Partycjonowanie danych umożliwia równoległe przetwarzanie danych, co może skrócić czas wykonywania zadań.
+
+**Optymalizacja wykorzystania pamięci**: Partycjonowanie danych może zmniejszyć zużycie pamięci, ponieważ dane są dzielone na mniejsze części, co może zwiększyć wykorzystanie pamięci podręcznej.
+
+
+2. Zastosowanie partycjonowania
+----------------------------------
+1. **Poprawa wydajności**: Partycjonowanie może poprawić wydajność zapytań do bazy danych, ponieważ zamiast przeszukiwania całej tabeli, system może skupić się na mniejszych partycjach, co zmniejsza czas przetwarzania zapytań.
+
+2. **Ułatwienie zarządzania danymi**: Partycjonowanie ułatwia zarządzanie dużymi tabelami, ponieważ można zarządzać każdą partycją jako odrębną jednostkę, co ułatwia ich indeksowanie, optymalizację, przywracanie i archiwizację.
+
+3. **Poprawa dostępności**: Dzięki partycjonowaniu można zmniejszyć wpływ awarii na całą bazę danych. Jeśli jedna partycja ulegnie awarii, pozostałe partycje wciąż będą działać, a system będzie mógł działać dalej.
+
+4. **Zwiększenie skalowalności**: Partycjonowanie może pomóc w zwiększeniu skalowalności bazy danych, ponieważ pozwala na dodawanie i usuwanie partycji w miarę potrzeby, co umożliwia dostosowanie bazy danych do zmieniających się potrzeb biznesowych.
+
+3. Zalety i wady partycjonowania
+-----------------------------------
+Partycjonowanie danych ma swoje wady i zalety, które należy rozróżnić ze względu na rodzaj partycjonowania - możemy mieć do czynienia z partycjonowaniem poziomym, gdzie krotki dzielimy ze względu na np. klucz główny i partycjonowaniem pionowym, gdzie tabele (relacje) dzielimy na mniejsze, z których każda posiada pewien podzbiór kolumn wyjściowej tabeli. Należy jednak przy tym zaznaczyć, że w PostgreSQL nie mamy do dyspozycji poleceń, które umożliwiają przeprowadzić ostatni typ partycjonowania "wprost".
+
+
+**Poziomy podział**
+********************
+Poziomy podział, znany także jako podział wierszy lub sharding, to proces podziału tabeli na wiele mniejszych tabel na podstawie klucza partycji, takiego jak identyfikator klienta, zakres daty lub region geograficzny. Każda partycja zawiera podzbiór wierszy z oryginalnej tabeli, ale wszystkie kolumny są zachowane. Na przykład, można podzielić tabelę sprzedaży na podstawie miesiąca, tak aby każda partycja zawierała rekordy sprzedaży dla określonego miesiąca. Poziomy podział może oferować kilka korzyści, takich jak szybsze zapytania ze względu na zmniejszenie rozmiaru danych oraz wyższą dostępność i skalowalność dzięki dystrybucji danych. Jednakże ma także pewne wady, takie jak złożoność projektowania bazy danych, administracji i utrzymania, a także nierównomierny rozkład danych powodujący nierównowagę danych. Nierównomierny rozkład danych może prowadzić do problemów wydajnościowych, punktów gorących lub nierównowagi w systemie. Dlatego konieczne jest staranne planowanie i wdrożenie schematu partycjonowania, aby zapewnić optymalne rezultaty.
+
+**Pionowy podział**
+********************
+Pionowy podział, znany także jako podział kolumn lub normalizacja, polega na podziale tabeli na wiele mniejszych tabel na podstawie podzbioru kolumn, a nie wierszy. Każda partycja zawiera wszystkie wiersze z oryginalnej tabeli, ale tylko niektóre kolumny. Na przykład, można oddzielić dane klienta od preferencji klienta w tabeli klientów. Ten proces może oferować kilka korzyści, takich jak redukcja nadmiaru danych, poprawa wydajności i zwiększona bezpieczeństwo. Jednak może także wprowadzać złożoność do projektowania bazy danych i obniżać wydajność zapytań. Pionowy podział może redukować nadmiarowość poprzez eliminację zduplikowanych lub niepotrzebnych kolumn z każdej tabeli oraz poprawiać wydajność poprzez zmniejszenie szerokości każdej tabeli. Dodatkowo, może poprawić jakość i spójność danych oraz umożliwić przechowywanie kolumnowe dla szybszego kompresowania, indeksowania i agregacji danych. Ponadto, pionowy podział może zwiększać bezpieczeństwo poprzez oddzielenie poufnych kolumn od mniej poufnych lub publicznych kolumn oraz ułatwiać szyfrowanie lub maskowanie danych. Z drugiej strony, może zwiększać złożoność projektowania bazy danych i administracji, a także komplikować logikę aplikacji i optymalizację zapytań. Może również obniżać wydajność zapytań poprzez zwiększenie liczby tabel i łączeń w systemie bazodanowym.
