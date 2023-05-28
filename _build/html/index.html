@@ -42,7 +42,7 @@
 Michał Łabowicz</p>
 </dd>
 <dt class="field-even">Version<span class="colon">:</span></dt>
-<dd class="field-even"><p>1.0 of 20.04.2023</p>
+<dd class="field-even"><p>1.0 of 1.06.2023</p>
 </dd>
 <dt class="field-odd">Course<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Databases I</p>
@@ -98,6 +98,17 @@ Michał Łabowicz</p>
 <p>Pionowy podział, znany także jako podział kolumn lub normalizacja, polega na podziale tabeli na wiele mniejszych tabel na podstawie podzbioru kolumn, a nie wierszy. Każda partycja zawiera wszystkie wiersze z oryginalnej tabeli, ale tylko niektóre kolumny. Na przykład, można oddzielić dane klienta od preferencji klienta w tabeli klientów. Ten proces może oferować kilka korzyści, takich jak redukcja nadmiaru danych, poprawa wydajności i zwiększona bezpieczeństwo. Jednak może także wprowadzać złożoność do projektowania bazy danych i obniżać wydajność zapytań. Pionowy podział może redukować nadmiarowość poprzez eliminację zduplikowanych lub niepotrzebnych kolumn z każdej tabeli oraz poprawiać wydajność poprzez zmniejszenie szerokości każdej tabeli. Dodatkowo, może poprawić jakość i spójność danych oraz umożliwić przechowywanie kolumnowe dla szybszego kompresowania, indeksowania i agregacji danych. Ponadto, pionowy podział może zwiększać bezpieczeństwo poprzez oddzielenie poufnych kolumn od mniej poufnych lub publicznych kolumn oraz ułatwiać szyfrowanie lub maskowanie danych. Z drugiej strony, może zwiększać złożoność projektowania bazy danych i administracji, a także komplikować logikę aplikacji i optymalizację zapytań. Może również obniżać wydajność zapytań poprzez zwiększenie liczby tabel i łączeń w systemie bazodanowym.</p>
 </section>
 </section>
+<section id="implementacja-partycjonowania-w-postgresql">
+<h2>4. Implementacja partycjonowania w PostgreSQL<a class="headerlink" href="#implementacja-partycjonowania-w-postgresql" title="Permalink to this heading">¶</a></h2>
+<p><strong>1.</strong> Należy utworzyć tabelę „master”, z której wszystkie partycje będą dziedziczyć.</p>
+<p><strong>2.</strong> Ta tabela nie powinna zawierać żadnych danych. Nie należy definiować żadnych ograniczeń sprawdzających (check constraints) na tej tabeli, chyba że mają one być stosowane równie dla wszystkich partycji. Nie ma sensu również definiować na niej żadnych indeksów ani unikalnych ograniczeń.</p>
+<p><strong>3.</strong> Należy utworzyć kilka „dziecięcych” tabel dziedziczących po tabeli „master”. Zazwyczaj te tabele nie powinny dodawać żadnych kolumn do zestawu dziedziczonych po tabeli „master”.</p>
+<p><strong>4.</strong> Będziemy odnosić się do tych tabel jako partycji, choć są one w każdym calu normalnymi tabelami PostgreSQL.</p>
+<p><strong>5.</strong> Należy dodać ograniczenia tabeli (table constraints) do tabel partycji, aby zdefiniować dozwolone wartości kluczy w każdej partycji.</p>
+<p><strong>6.</strong> Dla każdej partycji należy utworzyć indeks na kolumnie(i) klucza oraz ewentualnie inne indeksy, które mogą być potrzebne. (Indeks klucza nie jest konieczny, ale w większości scenariuszy jest pomocny. Jeśli zamierzamy, że wartości kluczy będą unikalne, należy zawsze tworzyć unikalne lub klucz główny dla każdej partycji.)</p>
+<p><strong>7.</strong> Opcjonalnie można zdefiniować wyzwalacz (trigger) lub regułę (rule), które przekierują dane wprowadzane do tabeli „master” do odpowiedniej partycji.</p>
+<p><strong>8.</strong> Należy upewnić się, że parametr konfiguracji „constraint_exclusion” nie jest wyłączony w pliku postgresql.conf. Jeśli jest wyłączony, zapytania nie będą zoptymalizowane zgodnie z oczekiwaniami.</p>
+</section>
 </section>
 
 
@@ -120,6 +131,7 @@ Michał Łabowicz</p>
 <li><a class="reference internal" href="#pionowy-podzial"><strong>Pionowy podział</strong></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#implementacja-partycjonowania-w-postgresql">4. Implementacja partycjonowania w PostgreSQL</a></li>
 </ul>
 </li>
 </ul>

@@ -14,7 +14,7 @@ Sprawozdanie projektowe z kursu Bazy danych 1
     Eryk Mika,
     Michał Łabowicz
 
-:Version: 1.0 of 20.04.2023
+:Version: 1.0 of 1.06.2023
 :Course: Databases I
     
 Partycjonowanie danych
@@ -81,3 +81,22 @@ Poziomy podział, znany także jako podział wierszy lub sharding, to proces pod
 **Pionowy podział**
 ********************
 Pionowy podział, znany także jako podział kolumn lub normalizacja, polega na podziale tabeli na wiele mniejszych tabel na podstawie podzbioru kolumn, a nie wierszy. Każda partycja zawiera wszystkie wiersze z oryginalnej tabeli, ale tylko niektóre kolumny. Na przykład, można oddzielić dane klienta od preferencji klienta w tabeli klientów. Ten proces może oferować kilka korzyści, takich jak redukcja nadmiaru danych, poprawa wydajności i zwiększona bezpieczeństwo. Jednak może także wprowadzać złożoność do projektowania bazy danych i obniżać wydajność zapytań. Pionowy podział może redukować nadmiarowość poprzez eliminację zduplikowanych lub niepotrzebnych kolumn z każdej tabeli oraz poprawiać wydajność poprzez zmniejszenie szerokości każdej tabeli. Dodatkowo, może poprawić jakość i spójność danych oraz umożliwić przechowywanie kolumnowe dla szybszego kompresowania, indeksowania i agregacji danych. Ponadto, pionowy podział może zwiększać bezpieczeństwo poprzez oddzielenie poufnych kolumn od mniej poufnych lub publicznych kolumn oraz ułatwiać szyfrowanie lub maskowanie danych. Z drugiej strony, może zwiększać złożoność projektowania bazy danych i administracji, a także komplikować logikę aplikacji i optymalizację zapytań. Może również obniżać wydajność zapytań poprzez zwiększenie liczby tabel i łączeń w systemie bazodanowym.
+
+4. Implementacja partycjonowania w PostgreSQL
+-----------------------------------------------
+
+**1.** Należy utworzyć tabelę "master", z której wszystkie partycje będą dziedziczyć.
+
+**2.** Ta tabela nie powinna zawierać żadnych danych. Nie należy definiować żadnych ograniczeń sprawdzających (check constraints) na tej tabeli, chyba że mają one być stosowane równie dla wszystkich partycji. Nie ma sensu również definiować na niej żadnych indeksów ani unikalnych ograniczeń.
+
+**3.** Należy utworzyć kilka "dziecięcych" tabel dziedziczących po tabeli "master". Zazwyczaj te tabele nie powinny dodawać żadnych kolumn do zestawu dziedziczonych po tabeli "master".
+
+**4.** Będziemy odnosić się do tych tabel jako partycji, choć są one w każdym calu normalnymi tabelami PostgreSQL.
+
+**5.** Należy dodać ograniczenia tabeli (table constraints) do tabel partycji, aby zdefiniować dozwolone wartości kluczy w każdej partycji.
+
+**6.** Dla każdej partycji należy utworzyć indeks na kolumnie(i) klucza oraz ewentualnie inne indeksy, które mogą być potrzebne. (Indeks klucza nie jest konieczny, ale w większości scenariuszy jest pomocny. Jeśli zamierzamy, że wartości kluczy będą unikalne, należy zawsze tworzyć unikalne lub klucz główny dla każdej partycji.)
+
+**7.** Opcjonalnie można zdefiniować wyzwalacz (trigger) lub regułę (rule), które przekierują dane wprowadzane do tabeli "master" do odpowiedniej partycji.
+
+**8.** Należy upewnić się, że parametr konfiguracji "constraint_exclusion" nie jest wyłączony w pliku postgresql.conf. Jeśli jest wyłączony, zapytania nie będą zoptymalizowane zgodnie z oczekiwaniami.
